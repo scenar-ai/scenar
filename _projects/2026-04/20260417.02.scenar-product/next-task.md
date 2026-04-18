@@ -25,9 +25,9 @@ Drop this file into your conversation to quickly resume work on this project.
 | T03 | Engine Extraction (zero @stigmer/* imports) | DONE | T02 |
 | T04 | Shells Extraction | DONE | T03 |
 | T05 | SDK — createScenario() | DONE | T01, T03 |
-| T06 | Rewire Stigmer Demos to Scenar Imports | PENDING | T03, T04 |
+| T06 | Rewire Stigmer Demos to Scenar Imports | DONE (incremental via T03–T07) | T03, T04 |
 | T07 | Remotion Video Pipeline Integration | DONE | T03 |
-| T08 | Standalone Example (validates extraction) | PENDING | T05, T06 |
+| T08 | Standalone Example (validates extraction) | DEFERRED — Stigmer-as-consumer already validates; revisit for docs/onboarding | T05, T06 |
 
 ## Completed: T01 — Define Scenar Proto Contract
 
@@ -148,15 +148,15 @@ Drop this file into your conversation to quickly resume work on this project.
 4. **Math.round for frame conversion**: Matches Stigmer's `msToFrames` exactly
 5. **Provider order**: `TimeSourceProvider` outside `VideoExportProvider` (matches Stigmer)
 
-## Current Task: T06 — Rewire Stigmer Demos to Scenar Imports
+## Completed: T06 — Rewire Stigmer Demos to Scenar Imports
 
-**Status**: PENDING — Ready to start (T03, T04, T05 are done)
+**Status**: DONE — Completed incrementally during T03, T04, T05, and T07. All 30 Stigmer scenarios import engine code from `@scenar/react`, `@scenar/preview`, and `@scenar/core`. Product-specific chrome (`views/`, `shared/`, `fixtures/`) remains in Stigmer by design (DD from T04).
 
 ## Sub-Projects
 
 | Sub-Project | Description | Status |
 |-------------|-------------|--------|
-| [20260417.03.sp.proto-simplify-and-cli](_projects/2026-04/20260417.03.sp.proto-simplify-and-cli/) | Strip proto contract to flat scenario spec, remove CRUD/render RPCs and commons/, scaffold @scenar/cli | Active |
+| [20260417.03.sp.proto-simplify-and-cli](_projects/2026-04/20260417.03.sp.proto-simplify-and-cli/) | Strip proto contract to flat scenario spec, remove CRUD/render RPCs and commons/, scaffold @scenar/cli | Complete |
 
 **Resume sub-project**: Drag `_projects/2026-04/20260417.03.sp.proto-simplify-and-cli/next-task.md` into chat.
 
