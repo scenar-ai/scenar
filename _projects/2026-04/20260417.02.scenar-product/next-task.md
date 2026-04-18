@@ -113,6 +113,14 @@ Drop this file into your conversation to quickly resume work on this project.
 
 **Status**: PENDING — Ready to start (T03, T04, T05 are done)
 
+## Sub-Projects
+
+| Sub-Project | Description | Status |
+|-------------|-------------|--------|
+| [20260417.03.sp.proto-simplify-and-cli](_projects/2026-04/20260417.03.sp.proto-simplify-and-cli/) | Strip proto contract to flat scenario spec, remove CRUD/render RPCs and commons/, scaffold @scenar/cli | Active |
+
+**Resume sub-project**: Drag `_projects/2026-04/20260417.03.sp.proto-simplify-and-cli/next-task.md` into chat.
+
 ## Key Design Decisions
 
 1. **Separate GitHub repo**: `scenar-ai/scenar` under the `scenar-ai` GitHub organization. Domain: scenar.ai.

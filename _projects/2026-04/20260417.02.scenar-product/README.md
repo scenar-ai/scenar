@@ -92,6 +92,12 @@ The `next-task.md` file contains:
 
 Only task logs (T##_1_feedback.md, T##_2_execution.md) can be updated without permission.
 
+## Sub-Projects
+
+| Sub-Project | Description | Status |
+|-------------|-------------|--------|
+| [20260417.03.sp.proto-simplify-and-cli](_projects/2026-04/20260417.03.sp.proto-simplify-and-cli/) | Strip proto contract to flat scenario spec, remove CRUD/render RPCs and commons/, scaffold @scenar/cli | Active |
+
 ## Notes
 
 _Add any additional notes, links, or context here as the project evolves._

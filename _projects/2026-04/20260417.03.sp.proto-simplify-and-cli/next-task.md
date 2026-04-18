@@ -58,11 +58,11 @@ Drop this file into your conversation to quickly resume work on this sub-project
 
 ## Current State
 
-- **Status**: T02 complete
-- **Last Session**: April 18, 2026 — T02 CLI scaffolding (validate + narrate) completed
+- **Status**: T02 complete + follow-up cleanup done
+- **Last Session**: April 18, 2026 — Edge TTS provider added, dead dependency removed, E2E narrate verified
 - **Active Task**: None — sub-project complete
 - **Commit**: `21acbeb` — `refactor(apis,sdk): simplify proto contract to scenario-only definition` (T01)
-- **T02**: Uncommitted — `scenar` CLI package scaffolded with validate + narrate commands
+- **T02**: Committed as `feb7830` — `feat(cli): scaffold scenar CLI with validate and narrate commands`
 
 ## Session Progress (2026-04-18)
 
@@ -86,7 +86,20 @@ Drop this file into your conversation to quickly resume work on this sub-project
 
 ### Observations
 
-- `@bufbuild/protobuf` is listed in `packages/sdk/package.json` as a dependency but never imported in source — dead dependency, could be removed in a future cleanup pass
+- ~~`@bufbuild/protobuf` dead dependency~~ — resolved in follow-up session (removed)
+
+### Completed: Follow-Up — Edge TTS Provider + Dead Dep Cleanup (2026-04-18 session 2)
+
+- Removed dead `@bufbuild/protobuf` dependency from `@scenar/sdk` (declared but never imported)
+- Added Edge TTS provider (`packages/cli/src/tts/edge-tts.ts`) using `edge-tts-universal` — same library Stigmer uses
+- Duration extraction from subtitle metadata with bitrate-based fallback (Stigmer's proven approach)
+- Default voice: `en-US-AndrewMultilingualNeural` (matches Stigmer)
+- `edge-tts-universal` as optional peer dep (AGPL-3.0, same pattern as Echogarden)
+- Updated resolve-provider with three-way provider support (echogarden | edge-tts | openai)
+- Updated all error messages to cross-reference all three TTS options
+- 6 new tests (4 edge-tts-provider + 2 resolve-provider), all passing
+- E2E narrate verified: `scenar narrate demo.yaml --tts edge-tts` → valid 8.5 KB MP3 + manifest.json
+- Total: 130 tests across 4 packages (27 core + 28 sdk + 21 react + 54 cli)
 
 ### Completed: T02 — CLI Scaffolding (validate + narrate)
 
@@ -113,7 +126,7 @@ Drop this file into your conversation to quickly resume work on this sub-project
 
 1. **Proto message rename**: `ScenarioSpec` -> `Scenario` (the message name, not the file name)
 2. **Proto file rename**: `spec.proto` -> `scenario.proto` (decided session 2026-04-18)
-3. **TTS provider**: Free offline TTS (Echogarden) as default. OpenAI TTS as optional paid upgrade via `--tts openai` flag.
+3. **TTS provider**: Free offline TTS (Echogarden) as default. OpenAI TTS as optional paid upgrade via `--tts openai` flag. Edge TTS as free online alternative via `--tts edge-tts`.
 4. **CLI input**: YAML only for v1. No TypeScript scenario loading.
 5. **No DB**: Scenarios live in git. No hosted service for Phase 1.
 6. **Monetization**: Stigmer agent generates scenario PRs against user repos. Scenar stays OSS.
@@ -123,6 +136,8 @@ Drop this file into your conversation to quickly resume work on this sub-project
 10. **CLI package name**: `scenar` (unscoped npm name), directory `packages/cli/`
 11. **YAML uses snake_case**: Scenario YAML files use proto-native snake_case field names
 12. **Echogarden optional**: GPL v3 dependency made optional peer dep to keep CLI Apache-2.0
+13. **Edge TTS optional**: AGPL-3.0 dependency (`edge-tts-universal`) made optional peer dep, same pattern as Echogarden — matches Stigmer's proven TTS approach
+14. **Dead dep cleanup**: Removed unused `@bufbuild/protobuf` from `@scenar/sdk`
 
 ## Task Roadmap
 
@@ -133,11 +148,11 @@ Drop this file into your conversation to quickly resume work on this sub-project
 
 ## What's Next
 
-Sub-project goals achieved. Both T01 (proto simplification) and T02 (CLI scaffolding) are complete. Potential follow-ups:
+Sub-project goals achieved. All planned work complete:
 
-- **Commit T02 changes** — all changes are uncommitted
-- **End-to-end narrate test** — requires Echogarden install or OpenAI API key
-- **Remove dead `@bufbuild/protobuf` dependency** from `@scenar/sdk`
+- ~~Commit T02 changes~~ — committed as `feb7830`
+- ~~End-to-end narrate test~~ — verified with Edge TTS (produced valid MP3 + manifest)
+- ~~Remove dead `@bufbuild/protobuf` dependency~~ — removed from `@scenar/sdk`
 - **Add more CLI commands** as the product evolves
 
 ### CLI Package Structure (Built)
@@ -156,11 +171,12 @@ packages/cli/
 │   ├── tts/
 │   │   ├── types.ts            ← TtsProvider interface + manifest types
 │   │   ├── echogarden.ts       ← optional peer dep (GPL v3)
+│   │   ├── edge-tts.ts         ← optional peer dep (AGPL-3.0), matches Stigmer
 │   │   ├── openai.ts           ← requires OPENAI_API_KEY
-│   │   └── resolve-provider.ts ← factory with fallback guidance
+│   │   └── resolve-provider.ts ← factory with three-way resolution
 │   ├── util/
 │   │   └── load-yaml.ts        ← YAML reader + snake_case→camelCase
-│   └── __tests__/ (6 files, 48 tests)
+│   └── __tests__/ (7 files, 54 tests)
 └── examples/demo.yaml
 ```
 
